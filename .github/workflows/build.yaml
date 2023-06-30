@@ -1,23 +1,15 @@
-name: Echo message
+name: 'tag'
+env:
+  TOKEN: ${{ secrets.GITHUB_TOKEN }}
 on:
-  workflow_dispatch:
-    inputs:
-      hubAddressGroupObject:
-        type: choice
-        description: 'Enter the name of the hub where the entry is added'
-        required: true
-        default: 'AZURE-EUW-XXXXX'
-        options:
-          - 'AZURE-EUW-XXXXX'
-          - 'AZURE-FRC-XXXXX'
-          - 'AZURE-USE-XXXXX'
-          - 'AZURE-FRC-XXXXX'
-
+  push:
+    branches:
+      - master
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  tag:
+    runs-on: xcode
     steps:
-      - uses: actions/checkout@v2
-      - name: WriteMessage
-        run: |
-          echo "${{ github.event.inputs.hubAddressGroupObject }}"
+      - uses: https://github.com/actions/checkout@v2
+      - uses: https://github.com/christophebedard/tag-version-commit@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
